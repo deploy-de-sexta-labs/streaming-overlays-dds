@@ -1,12 +1,11 @@
 import type { TweakConfig } from "@/shared/types";
-import { HeartMark } from "@/shared/components/HeartMark";
 
 interface QuoteEditorialProps {
   config: TweakConfig;
 }
 
 export function QuoteEditorial({ config }: QuoteEditorialProps) {
-  const { primary, accent, quoteText, quoteAuthor, quoteAuthorRole, quoteContext, episodeNumber, showCameraPlaceholders } = config;
+  const { primary, accent, quoteText, quoteAuthor, quoteAuthorRole, quoteContext, showCameraPlaceholders } = config;
 
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden", display: "flex" }}>
@@ -17,15 +16,8 @@ export function QuoteEditorial({ config }: QuoteEditorialProps) {
         padding: "90px 100px",
         display: "flex", flexDirection: "column", justifyContent: "space-between",
       }}>
-        {/* top: brand + context */}
+        {/* top: context */}
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 30 }}>
-            <HeartMark size={32} color={accent} />
-            <span style={{
-              fontFamily: "Inter, sans-serif", fontSize: 13,
-              color: "#fff", letterSpacing: "0.28em", fontWeight: 800,
-            }}>HE4RT TALKS · {episodeNumber}</span>
-          </div>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             padding: "6px 14px", borderRadius: 4,

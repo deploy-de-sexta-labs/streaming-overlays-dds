@@ -17,18 +17,12 @@ export function CameraFrame({ x, y, w, h, name, role, handle, side, primary, acc
     <div style={{
       position: 'absolute', left: x, top: y, width: w, height: h,
     }}>
-      {/* outer purple gradient border */}
-      <div style={{
-        position: 'absolute', inset: -3,
-        background: `linear-gradient(${side === 'left' ? '135deg' : '225deg'}, ${accent} 0%, ${primary} 50%, transparent 80%)`,
-        borderRadius: 18,
-        opacity: 0.9,
-      }} />
       {/* camera content (placeholder) */}
       <div style={{
         position: 'absolute', inset: 0, borderRadius: 16, overflow: 'hidden',
         background: showPlaceholder ? `linear-gradient(135deg, #2a1850 0%, #0b0418 100%)` : '#00FF00',
-        boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(168,85,247,0.25) inset`,
+        border: `1px solid ${accent}99`,
+        boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px ${accent}40 inset`,
       }}>
         {showPlaceholder && (<>
         {/* simulated camera feed gradient + soft circle */}

@@ -4,27 +4,78 @@ import { CameraFrame } from "@/shared/components/CameraFrame";
 import { useOverlayConfig } from "@/hooks/useOverlayConfig";
 import { useSpotifyNowPlaying } from "@/hooks/useSpotifyNowPlaying";
 import { SpotifyNowPlayingCard } from "@/shared/components/SpotifyNowPlayingCard";
+import { getCameraParticipants } from "@/shared/participants";
+import PartnersPanel from "@/shared/partners/PartnersPanel";
 
 export function TwoCamsScene() {
   const t = useOverlayConfig();
   const { nowPlaying, configured, isLoading } = useSpotifyNowPlaying();
   const camAreaLeft = 30;
-  const camAreaTop = 130;
+  const camAreaTop = 80;
   const camAreaRight = t.showChat ? 480 : 30;
-  const camAreaBottom = 196;
   const camWidth = 1920 - camAreaLeft - camAreaRight;
-  const camAreaH = 1080 - camAreaTop - camAreaBottom;
+  const participants = getCameraParticipants(t);
   const gap = 24;
-  const camW = (camWidth - gap) / 2;
-  const camH = camAreaH;
+  const hasThreeParticipants = participants.length === 3;
+  const camW = (camWidth - gap * (participants.length - 1)) / participants.length;
+  const camH = camW * 9 / 16;
+  const topCameraWidth = Math.min(600, (camWidth - gap) / 2);
+  const guestCameraWidth = t.showPartnersPanel
+    ? t.showChat ? 620 : 760
+    : 900;
+  const guestCameraHeight = guestCameraWidth * 9 / 16;
+  const guestCameraX = camAreaLeft + (camWidth - guestCameraWidth) / 2;
+  const partnersWidth = t.showChat ? 320 : 450;
 
   return (
     <Stage>
-      <Overlay>
-        <CameraFrame x={camAreaLeft} y={camAreaTop} w={camW} h={camH}
-          name={t.guest1Name} role={t.guest1Role} handle={t.guest1Handle} side="left" primary={t.primary} accent={t.accent} showPlaceholder={t.showCameraPlaceholders} />
-        <CameraFrame x={camAreaLeft + camW + gap} y={camAreaTop} w={camW} h={camH}
-          name={t.guest2Name} role={t.guest2Role} handle={t.guest2Handle} side="right" primary={t.primary} accent={t.accent} showPlaceholder={t.showCameraPlaceholders} />
+      <Overlay showPartnersPanel={false}>
+        {participants.map((participant, index) => {
+          const isGuest = hasThreeParticipants && index === 2;
+          const width = hasThreeParticipants
+            ? isGuest ? guestCameraWidth : topCameraWidth
+            : camW;
+          const height = hasThreeParticipants
+            ? isGuest ? guestCameraHeight : topCameraWidth * 9 / 16
+            : camH;
+          const x = hasThreeParticipants
+            ? isGuest
+              ? guestCameraX
+              : camAreaLeft + (camWidth - (topCameraWidth * 2 + gap)) / 2 + index * (topCameraWidth + gap)
+            : camAreaLeft + index * (camW + gap);
+          const y = hasThreeParticipants
+            ? isGuest ? (t.showChat ? 570 : 520) : camAreaTop
+            : camAreaTop;
+
+          return (
+            <CameraFrame
+              key={index}
+              x={x}
+              y={y}
+              w={width}
+              h={height}
+              name={participant.name}
+              role={participant.role}
+              handle={participant.handle}
+              side={index === 1 ? "right" : "left"}
+              primary={t.primary}
+              accent={t.accent}
+              showPlaceholder={t.showCameraPlaceholders}
+            />
+          );
+        })}
+
+        {t.showPartnersPanel && (
+          <PartnersPanel
+            config={t}
+            width={hasThreeParticipants ? partnersWidth : 560}
+            height={hasThreeParticipants ? 250 : 230}
+            logoWidth={hasThreeParticipants ? partnersWidth * 0.65 : 300}
+            logoHeight={hasThreeParticipants ? 130 : 100}
+            topOffset={hasThreeParticipants ? (t.showChat ? 600 : 620) : 710}
+            rightOffset={hasThreeParticipants && t.showChat ? 510 : 30}
+          />
+        )}
 
         {t.showChat && t.showSpotifyNowPlaying && (
           <div

@@ -1,5 +1,4 @@
 import type { TweakConfig } from "@/shared/types";
-import { HeartMark } from "@/shared/components/HeartMark";
 
 interface TickerBarProps {
   config: TweakConfig;
@@ -39,9 +38,7 @@ export function TickerBar({ config }: TickerBarProps) {
             fontSize: 15, color: '#fff', letterSpacing: '0.08em',
             paddingLeft: 32,
           }}>
-            <HeartMark size={22} color="#fff" />
             <span>{text}</span>
-            <HeartMark size={22} color="#fff" />
             <span>{text}</span>
           </div>
         </div>

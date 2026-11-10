@@ -1,55 +1,66 @@
-import { useState, useEffect } from "react";
 import { Stage } from "@/features/stage/Stage";
 import { Overlay } from "@/features/overlay/Overlay";
 import { useOverlayConfig } from "@/hooks/useOverlayConfig";
 import { useSpotifyNowPlaying } from "@/hooks/useSpotifyNowPlaying";
 import { SpotifyNowPlayingCard } from "@/shared/components/SpotifyNowPlayingCard";
+import { useEffect } from "react";
 
-function LiveCounter({ start = 1247, color, size = 56 }: { start?: number; color: string; size?: number }) {
-  const [n, setN] = useState(start);
-  useEffect(() => {
-    const id = setInterval(() => {
-      setN((v) => v + Math.floor(Math.random() * 5) + 1);
-    }, 1800);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <span style={{
-      fontFamily: "'Russo One', sans-serif", fontSize: size,
-      color: '#fff', fontVariantNumeric: 'tabular-nums',
-      letterSpacing: '-0.02em',
-      textShadow: `0 0 24px ${color}88`,
-    }}>{n.toLocaleString('pt-BR')}</span>
-  );
-}
+// function LiveCounter({ start = 1247, color, size = 56 }: { start?: number; color: string; size?: number }) {
+//   const [n, setN] = useState(start);
+//   useEffect(() => {
+//     const id = setInterval(() => {
+//       setN((v) => v + Math.floor(Math.random() * 5) + 1);
+//     }, 1800);
+//     return () => clearInterval(id);
+//   }, []);
+//   return (
+//     <span style={{
+//       fontFamily: "'Russo One', sans-serif", fontSize: size,
+//       color: '#fff', fontVariantNumeric: 'tabular-nums',
+//       letterSpacing: '-0.02em',
+//       textShadow: `0 0 24px ${color}88`,
+//     }}>{n.toLocaleString('pt-BR')}</span>
+//   );
+// }
 
 export function PreShowScene() {
   const t = useOverlayConfig();
   const { nowPlaying, configured, isLoading } = useSpotifyNowPlaying();
   const {
-    primary, accent, bgPanel, showCameraPlaceholders,
-    preshowHostName, preshowHostHandle, preshowAgenda,
-    preshowOnlineStart, preshowHashtag, preshowGuestTeaser,
-    episodeNumber, episodeTitle, topic, showChat, showSpotifyNowPlaying,
+    primary, accent, bgPanel, showCameraPlaceholders, guest1Name, guest1Handle, guest2Name, guest2Handle,
+    cohostName, cohostHandle, preshowGuestTeaser, episodeNumber, episodeTitle, topic, showChat,
+    showSpotifyNowPlaying,
   } = t;
+  const obsCamera = new URLSearchParams(window.location.search).has('camera');
+
+  useEffect(() => {
+    if (!obsCamera) return;
+    const style = document.createElement('style');
+    style.textContent =
+      'html, body, #root { background: transparent !important; }';
+    document.head.appendChild(style);
+    return () => style.remove();
+  }, [obsCamera]);
 
   return (
-    <Stage>
-      <Overlay>
+    <Stage transparent={obsCamera}>
+      <Overlay transparent={obsCamera}>
         <div style={{ position: 'absolute', inset: 0, right: t.showChat ? 480 : 0 }}>
           {/* full-bleed cam area */}
-          <div style={{
+          <div className="camera-area" style={{
             position: 'absolute', inset: 0,
-            background: showCameraPlaceholders
-              ? `repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 14px, transparent 14px 28px), linear-gradient(135deg, ${primary}22, #050110 70%)`
-              : '#00FF00',
+            background: obsCamera
+              ? 'transparent'
+              : showCameraPlaceholders
+                ? `repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 14px, transparent 14px 28px), linear-gradient(135deg, ${primary}22, #050110 70%)`
+                : '#00FF00',
             overflow: 'hidden',
           }}>
             {showCameraPlaceholders && (<>
               {/* radial vignette */}
               <div style={{
                 position: 'absolute', inset: 0,
-                background: 'radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(0,0,0,0.55) 80%)',
+                background: 'radial-gradient(ellipse at 50% 45%, transparent 20%, rgba(0,0,0,0.8) 70%)',
               }} />
 
               {/* center placeholder hint */}
@@ -60,21 +71,21 @@ export function PreShowScene() {
                 color: 'rgba(255,255,255,0.25)',
               }}>
                 <div style={{
-                  width: 84, height: 84, borderRadius: '50%',
+                  width: 100, height: 100, borderRadius: '50%',
                   border: `2px dashed ${accent}55`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   animation: 'glow 3s ease-in-out infinite',
                 }}>
                   <div style={{
-                    width: 18, height: 18, borderRadius: '50%', background: '#EF4444',
+                    width: 25, height: 25, borderRadius: '50%', background: '#EF4444',
                     boxShadow: '0 0 24px #EF4444',
                     animation: 'pulse 1.4s ease-in-out infinite',
                   }} />
                 </div>
                 <div style={{
-                  fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 800,
+                  fontFamily: 'Inter, sans-serif', fontSize: 25, fontWeight: 1000,
                   letterSpacing: '0.4em',
-                }}>CÂMERA · {preshowHostName.toUpperCase()}</div>
+                }}>CÂMERA</div>
               </div>
             </>)}
 
@@ -110,15 +121,10 @@ export function PreShowScene() {
               }} />
               AO VIVO
             </div>
-            <div style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 11,
-              color: 'rgba(255,255,255,0.6)',
-              letterSpacing: '0.4em', fontWeight: 700,
-            }}>HE4RT TALKS · {episodeNumber} · PRÉ-SHOW</div>
           </div>
 
           {/* TOP-RIGHT — online counter */}
-          <div style={{
+          {/* <div style={{
             position: 'absolute', top: 100, right: 60,
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '8px 14px',
@@ -137,24 +143,26 @@ export function PreShowScene() {
               color: 'rgba(255,255,255,0.55)', fontWeight: 600,
               letterSpacing: '0.16em',
             }}>online</span>
-          </div>
+          </div> */}
 
           {/* BOTTOM — big title + topic + host plate */}
           <div style={{
             position: 'absolute', left: 56, bottom: 60, right: 60,
           }}>
             <div style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 12, color: accent,
-              letterSpacing: '0.4em', fontWeight: 700, marginBottom: 14,
-            }}>HOJE</div>
+              fontFamily: 'Inter, sans-serif', fontSize: 28,
+              color: 'rgba(255,255,255,0.9)', lineHeight: 1.25,
+              fontWeight: 700, maxWidth: 1050, marginBottom: 24,
+              textShadow: '0 2px 12px rgba(0,0,0,0.6)',
+            }}>{preshowGuestTeaser}</div>
             <div style={{
               fontFamily: "'Russo One', sans-serif", fontSize: 84,
               color: '#fff', lineHeight: 0.92, letterSpacing: '-0.02em',
               textShadow: '0 4px 30px rgba(0,0,0,0.6)',
-            }}>{episodeTitle}<span style={{ color: accent }}>.</span></div>
+            }}>{episodeNumber}: {episodeTitle}<span style={{ color: accent }}>.</span></div>
             <div style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 18,
-              color: 'rgba(255,255,255,0.75)', marginTop: 10, lineHeight: 1.4, marginBottom: 20,
+              fontFamily: 'Inter, sans-serif', fontSize: 25,
+              color: 'rgba(255,255,255,1)', marginTop: 10, lineHeight: 1.4, marginBottom: 20,
               maxWidth: 720, fontWeight: 500,
               textShadow: '0 2px 12px rgba(0,0,0,0.6)',
             }}>{topic}</div>
@@ -167,6 +175,55 @@ export function PreShowScene() {
               background: 'rgba(11,4,24,0.45)', backdropFilter: 'blur(20px)',
               border: `1px solid ${accent}44`,
               borderRadius: 12,
+              marginRight: 24,
+            }}>
+              <div style={{
+                padding: '4px 10px', borderRadius: 4,
+                background: accent, color: '#fff',
+                fontFamily: 'Inter, sans-serif', fontSize: 10,
+                letterSpacing: '0.32em', fontWeight: 800,
+              }}>GUEST</div>
+              <div style={{
+                fontFamily: "'Russo One', sans-serif", fontSize: 18, color: '#fff',
+              }}>{guest1Name}</div>
+              <span style={{ color: `${accent}55` }}>·</span>
+              <div style={{
+                fontFamily: 'Inter, sans-serif', fontSize: 14,
+                color: 'rgba(255,255,255,0.7)', fontWeight: 500,
+              }}>{guest1Handle}</div>
+            </div>
+            <div style={{
+              marginTop: 24,
+              display: 'inline-flex', alignItems: 'center', gap: 14,
+              padding: '12px 18px',
+              background: 'rgba(11,4,24,0.45)', backdropFilter: 'blur(20px)',
+              border: `1px solid ${accent}44`,
+              borderRadius: 12,
+              marginRight: 24,
+            }}>
+              <div style={{
+                padding: '4px 10px', borderRadius: 4,
+                background: accent, color: '#fff',
+                fontFamily: 'Inter, sans-serif', fontSize: 10,
+                letterSpacing: '0.32em', fontWeight: 800,
+              }}>CO-HOST</div>
+              <div style={{
+                fontFamily: "'Russo One', sans-serif", fontSize: 18, color: '#fff',
+              }}>{cohostName}</div>
+              <span style={{ color: `${accent}55` }}>·</span>
+              <div style={{
+                fontFamily: 'Inter, sans-serif', fontSize: 14,
+                color: 'rgba(255,255,255,0.7)', fontWeight: 500,
+              }}>{cohostHandle}</div>
+            </div>
+            <div style={{
+              marginTop: 24,
+              display: 'inline-flex', alignItems: 'center', gap: 14,
+              padding: '12px 18px',
+              background: 'rgba(11,4,24,0.45)', backdropFilter: 'blur(20px)',
+              border: `1px solid ${accent}44`,
+              borderRadius: 12,
+              marginRight: 24,
             }}>
               <div style={{
                 padding: '4px 10px', borderRadius: 4,
@@ -176,17 +233,17 @@ export function PreShowScene() {
               }}>HOST</div>
               <div style={{
                 fontFamily: "'Russo One', sans-serif", fontSize: 18, color: '#fff',
-              }}>{preshowHostName}</div>
+              }}>{guest2Name}</div>
               <span style={{ color: `${accent}55` }}>·</span>
               <div style={{
                 fontFamily: 'Inter, sans-serif', fontSize: 14,
                 color: 'rgba(255,255,255,0.7)', fontWeight: 500,
-              }}>{preshowHostHandle}</div>
+              }}>{guest2Handle}</div>
             </div>
           </div>
 
           {/* BOTTOM-RIGHT — agenda */}
-          <div style={{
+          {/* <div style={{
             position: 'absolute', right: 60, bottom: 60,
             width: 280, textAlign: 'right',
           }}>
@@ -213,31 +270,15 @@ export function PreShowScene() {
                 }} />
               </div>
             ))}
-          </div>
-
-          {/* CENTER-RIGHT — guest teaser */}
-          <div style={{
-            position: 'absolute', right: 60, top: 200,
-            width: 280, textAlign: 'right',
-          }}>
-            <div style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.4)',
-              letterSpacing: '0.32em', fontWeight: 700, marginBottom: 6,
-            }}>EM BREVE</div>
-            <div style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.7)',
-              lineHeight: 1.4, fontWeight: 500, fontStyle: 'italic',
-              textShadow: '0 2px 8px rgba(0,0,0,0.6)',
-            }}>"{preshowGuestTeaser}"</div>
-          </div>
+          </div> */}
 
           {/* hashtag */}
-          <div style={{
+          {/* <div style={{
             position: 'absolute', left: 56, top: 160,
             fontFamily: "'Russo One', sans-serif", fontSize: 14,
             color: accent, letterSpacing: '0.18em',
             opacity: 0.8,
-            }}>{preshowHashtag}</div>
+            }}>{preshowHashtag}</div> */}
 
         </div>
 

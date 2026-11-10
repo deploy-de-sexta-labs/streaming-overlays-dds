@@ -10,16 +10,19 @@ export function QuestionScene() {
     questionAuthor,
     questionAuthorBadge,
     questionText,
-    questionFrom,
     questionQueue,
     guest1Name,
     guest1Role,
     guest2Name,
     guest2Role,
+    cohostName,
+    cohostRole,
     episodeNumber,
     episodeTitle,
     showCameraPlaceholders,
   } = t;
+  const cameraHeight = 286;
+  const cameraStripHeight = cameraHeight + 80;
 
   return (
     <Stage>
@@ -42,12 +45,12 @@ export function QuestionScene() {
           textTransform: "uppercase",
         }}>
           <span style={{
-            width: 8, height: 8, borderRadius: "50%", background: accent,
+            width: 8, height: 8, borderRadius: "50%", background: 'red',
             animation: "pulse 1.4s ease-in-out infinite",
           }} />
           Pergunta da Audiência
-          <span style={{ color: `${accent}55` }}>·</span>
-          <span style={{ color: "rgba(255,255,255,0.7)", letterSpacing: "0.15em" }}>{questionFrom}</span>
+          {/* <span style={{ color: `${accent}55` }}>·</span>
+          <span style={{ color: "rgba(255,255,255,0.7)", letterSpacing: "0.15em" }}>{questionFrom}</span> */}
         </div>
 
         {/* HUGE quote mark watermark */}
@@ -60,7 +63,7 @@ export function QuestionScene() {
 
         {/* MAIN — question card centered */}
         <div style={{
-          position: "absolute", left: 140, right: 140, top: 160, bottom: 280,
+          position: "absolute", left: 140, right: 140, top: 160, bottom: cameraStripHeight + 24,
           display: "flex", flexDirection: "column", justifyContent: "center",
           gap: 32,
         }}>
@@ -127,7 +130,7 @@ export function QuestionScene() {
 
         {/* BOTTOM — small camera strip with hosts */}
         <div style={{
-          position: "absolute", left: 0, right: 0, bottom: 0, height: 240,
+          position: "absolute", left: 0, right: 0, bottom: 0, height: cameraStripHeight,
           background: "linear-gradient(180deg, transparent 0%, rgba(11,4,24,0.85) 50%)",
           padding: "40px 60px",
           display: "flex", alignItems: "flex-end", gap: 24,
@@ -135,9 +138,10 @@ export function QuestionScene() {
           {[
             { name: guest1Name, role: guest1Role, label: "CAM 01" },
             { name: guest2Name, role: guest2Role, label: "CAM 02" },
+            { name: cohostName, role: cohostRole, label: "CAM 03" },
           ].map((g, i) => (
             <div key={i} style={{
-              flex: 1, height: 160,
+              flex: 1, height: cameraHeight,
               background: showCameraPlaceholders ? `linear-gradient(160deg, ${primary}33 0%, ${primary}11 100%)` : '#00FF00',
               borderRadius: 12,
               border: `1px solid ${accent}44`,
@@ -167,11 +171,6 @@ export function QuestionScene() {
                 fontFamily: "'Russo One', sans-serif", fontSize: 22,
                 color: "#fff", lineHeight: 1.1,
               }}>{g.name}</div>
-              <div style={{
-                fontFamily: "Inter, sans-serif", fontSize: 12,
-                color: accent, letterSpacing: "0.15em", marginTop: 4,
-                fontWeight: 700, textTransform: "uppercase",
-              }}>{g.role}</div>
               {/* live dot */}
               <div style={{
                 position: "absolute", top: 14, right: 14,
@@ -192,7 +191,7 @@ export function QuestionScene() {
 
           {/* counter */}
           <div style={{
-            flex: "0 0 auto", width: 200, height: 160,
+            flex: "0 0 auto", width: 200, height: cameraHeight,
             background: "rgba(11,4,24,0.6)", backdropFilter: "blur(14px)",
             border: `1px solid ${accent}33`, borderRadius: 12,
             padding: 18,

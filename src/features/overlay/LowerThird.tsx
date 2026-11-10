@@ -1,5 +1,4 @@
 import type { TweakConfig } from "@/shared/types";
-import { HeartLogo } from "@/shared/components/HeartLogo";
 import { Clock } from "@/shared/components/Clock";
 import { SocialIcon } from "@/shared/components/SocialIcon";
 
@@ -16,7 +15,6 @@ export function LowerThird({ config }: LowerThirdProps) {
       display: 'flex', alignItems: 'center', gap: 24,
       pointerEvents: 'none',
     }}>
-      {/* logo block */}
       <div style={{
         display: 'flex', flexDirection: 'column', gap: 10,
         background: 'rgba(11,4,24,0.78)',
@@ -26,7 +24,6 @@ export function LowerThird({ config }: LowerThirdProps) {
         borderRadius: 14,
         padding: '14px 24px',
       }}>
-        <HeartLogo size={0.8} purple={accent} />
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 2 }}>
           <div style={{
             height: 4, width: 60,

@@ -1,7 +1,6 @@
 import type { TweakConfig } from "@/shared/types";
 import { useCountdown } from "@/hooks/useCountdown";
-import { HeartMark } from "@/shared/components/HeartMark";
-import { TerminalChat } from "@/shared/chat/TerminalChat";
+import PartnersPanel from "@/shared/partners/PartnersPanel";
 
 interface StartingV2Props {
   config: TweakConfig;
@@ -41,13 +40,11 @@ export function StartingV2({ config }: StartingV2Props) {
         filter: "blur(60px)", pointerEvents: "none",
       }} />
 
-      {/* terminal chat (left) */}
-      <TerminalChat config={config} x={60} y={300} w={520} h={620} />
-
-      {/* main stage (right side, big typo) */}
+      {/* main stage */}
       <div style={{
-        position: "absolute", right: 80, top: "50%", transform: "translateY(-50%)",
-        width: 1100, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 18,
+        position: "absolute", left: 80, right: config.showPartnersPanel ? 600 : 80,
+        top: "50%", transform: "translateY(-50%)",
+        display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 18,
       }}>
         {/* eyebrow */}
         <div style={{
@@ -118,19 +115,8 @@ export function StartingV2({ config }: StartingV2Props) {
         </div>
       </div>
 
-      {/* corner brand */}
       <div style={{
         position: "absolute", top: 40, left: 40,
-        display: "flex", alignItems: "center", gap: 12,
-      }}>
-        <HeartMark size={28} color={accent} />
-        <span style={{
-          fontFamily: "Inter, sans-serif", fontSize: 13,
-          color: "#fff", letterSpacing: "0.25em", fontWeight: 800,
-        }}>HE4RT TALKS</span>
-      </div>
-      <div style={{
-        position: "absolute", top: 40, right: 40,
         display: "inline-flex", alignItems: "center", gap: 8,
         background: "transparent", border: `1px solid ${accent}88`,
         padding: "8px 16px", borderRadius: 4,
@@ -143,6 +129,17 @@ export function StartingV2({ config }: StartingV2Props) {
         }} />
         STANDBY
       </div>
+      {config.showPartnersPanel && (
+        <PartnersPanel
+          config={config}
+          width={520}
+          height={820}
+          logoWidth={360}
+          logoHeight={380}
+          centerVertically
+          rightOffset={40}
+        />
+      )}
     </div>
   );
 }

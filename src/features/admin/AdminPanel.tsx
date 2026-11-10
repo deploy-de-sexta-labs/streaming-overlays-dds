@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import type { TweakConfig } from "@/shared/types";
 import { DEFAULTS } from "@/config/defaults";
 import { useOverlayConfig, saveOverlayConfig } from "@/hooks/useOverlayConfig";
-import { HeartLogo } from "@/shared/components/HeartLogo";
 import { SectionScene } from "./SectionScene";
 import { SectionEpisode } from "./SectionEpisode";
 import { SectionGuests } from "./SectionGuests";
@@ -156,8 +155,6 @@ export function AdminPanel() {
       {/* ─── TOP NAV BAR ─── */}
       <header className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[#0e0820] px-5 py-2.5">
         <div className="flex items-center gap-4">
-          <HeartLogo size={0.45} />
-          <div className="h-5 w-px bg-white/10" />
           <span className="font-body text-[11px] font-bold uppercase tracking-[0.3em] text-white/40">
             Stream Manager
           </span>

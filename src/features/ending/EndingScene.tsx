@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { Stage } from "@/features/stage/Stage";
 import { useOverlayConfig } from "@/hooks/useOverlayConfig";
 import { ParticleField } from "@/shared/components/ParticleField";
-import { HeartMark } from "@/shared/components/HeartMark";
-import type { TweakConfig } from "@/shared/types";
 
 interface WallMessage {
   user: string;
@@ -142,7 +140,6 @@ export function EndingScene() {
     accent,
     endingTitle,
     endingSubtitle,
-    episodeNumber,
     nextEpisodeNumber,
     nextEpisodeTitle,
     nextEpisodeGuest,
@@ -171,18 +168,11 @@ export function EndingScene() {
         }} />
         <ParticleField enabled={t.showHeartParticles} color={accent} />
 
-        {/* TOP — heart logo + episode encerrada badge */}
+        {/* TOP — episode encerrada badge */}
         <div style={{
           position: "absolute", top: 48, left: 64, right: 64,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
+          display: "flex", alignItems: "center", justifyContent: "flex-end",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <HeartMark size={32} color={accent} />
-            <span style={{
-              fontFamily: "Inter, sans-serif", fontSize: 12,
-              color: "#fff", letterSpacing: "0.32em", fontWeight: 800,
-            }}>HE4RT TALKS · {episodeNumber}</span>
-          </div>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             padding: "8px 18px", borderRadius: 6,

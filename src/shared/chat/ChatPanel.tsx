@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import type { TweakConfig } from "@/shared/types";
-import { HeartMark } from "@/shared/components/HeartMark";
 import { ChatRow } from "./ChatRow";
 import { useChatMessages } from "@/hooks/ChatProvider";
 
@@ -39,11 +38,6 @@ export function ChatPanel({ config }: ChatPanelProps) {
         clipPath: 'polygon(40% 0, 100% 0, 100% 60%, 100% 100%, 60% 100%, 100% 60%, 40% 0)',
         opacity: 0.95,
       }}>
-        <div style={{
-          position: 'absolute', top: 12, right: 12, color: '#fff',
-        }}>
-          <HeartMark size={26} color="#fff" />
-        </div>
       </div>
 
       {/* header */}

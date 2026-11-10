@@ -58,7 +58,7 @@ export function SectionPartners({ config, update }: SectionProps) {
           fontFamily: "var(--font-heading, sans-serif)",
           fontSize: 14,
           letterSpacing: "0.1em",
-          color: "var(--color-accent, #A855F7)",
+          color: config.accent,
         }}
       >
         PARCEIROS
@@ -137,8 +137,8 @@ export function SectionPartners({ config, update }: SectionProps) {
                     fontSize: 9,
                     fontWeight: 700,
                     letterSpacing: "0.1em",
-                    color: "rgba(168,85,247,0.7)",
-                    border: "1px solid rgba(168,85,247,0.3)",
+                    color: `${config.accent}B3`,
+                    border: `1px solid ${config.accent}4D`,
                     borderRadius: 4,
                     padding: "1px 4px",
                   }}
@@ -273,7 +273,7 @@ export function SectionPartners({ config, update }: SectionProps) {
               type="checkbox"
               checked={monochrome}
               onChange={(e) => setMonochrome(e.target.checked)}
-              style={{ accentColor: "var(--color-accent, #A855F7)", width: 14, height: 14 }}
+              style={{ accentColor: config.accent, width: 14, height: 14 }}
             />
             Forçar branco (PNG/SVG transparente)
           </label>
@@ -285,11 +285,11 @@ export function SectionPartners({ config, update }: SectionProps) {
               marginTop: 4,
               borderRadius: 8,
               border: "none",
-              background: "rgba(168,85,247,0.2)",
+              background: `${config.accent}33`,
               padding: "8px 16px",
               fontSize: 14,
               fontWeight: 700,
-              color: "var(--color-accent, #A855F7)",
+              color: config.accent,
               cursor: !name.trim() || !logoUrl.trim() ? "default" : "pointer",
               opacity: !name.trim() || !logoUrl.trim() ? 0.3 : 1,
             }}

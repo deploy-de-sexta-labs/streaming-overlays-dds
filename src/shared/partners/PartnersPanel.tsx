@@ -4,12 +4,29 @@ import { TweakConfig } from "../types";
 interface PartnersPanelProps {
   config: TweakConfig;
   width?: number | string;
+  height?: number;
+  logoWidth?: number;
+  logoHeight?: number;
+  centerVertically?: boolean;
+  rightOffset?: number;
+  topOffset?: number;
+  bottomOffset?: number;
 }
 
 const SLIDE_INTERVAL_MS = 4000;
 
-const PartnersPanel = ({ config, width = 420 }: PartnersPanelProps) => {
-  const { bgPanel, panelOpacity } = config;
+const PartnersPanel = ({
+  config,
+  width = 420,
+  height = 230,
+  logoWidth = 160,
+  logoHeight = 80,
+  centerVertically = false,
+  rightOffset = 30,
+  topOffset = 50,
+  bottomOffset,
+}: PartnersPanelProps) => {
+  const { primary, accent, bgPanel } = config;
   const partners = config.partners ?? [];
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -40,24 +57,20 @@ const PartnersPanel = ({ config, width = 420 }: PartnersPanelProps) => {
 
   const partner = partners[activeIndex];
 
-  const bgAlpha = Math.floor(panelOpacity * 255)
-    .toString(16)
-    .padStart(2, "0");
-
   return (
     <div
       style={{
         position: "absolute",
-        right: 30,
-        bottom: 50,
+        right: rightOffset,
+        top: centerVertically ? "50%" : bottomOffset === undefined ? topOffset : undefined,
+        bottom: centerVertically ? undefined : bottomOffset,
+        transform: centerVertically ? "translateY(-50%)" : undefined,
         width: width,
-        height: 230,
-        background: `linear-gradient(180deg, ${bgPanel}E6 0%, ${bgPanel}${bgAlpha} 100%)`,
-        backdropFilter: "blur(14px)",
-        WebkitBackdropFilter: "blur(14px)",
-        border: `1px solid rgba(168,85,247,0.35)`,
+        height,
+        background: bgPanel,
+        border: `1px solid ${accent}59`,
         borderRadius: 20,
-        boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(168,85,247,0.15) inset, 0 0 60px rgba(124,58,237,0.15)`,
+        boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px ${accent}26 inset, 0 0 60px ${primary}26`,
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
@@ -73,7 +86,7 @@ const PartnersPanel = ({ config, width = 420 }: PartnersPanelProps) => {
           fontWeight: 700,
           letterSpacing: "0.25em",
           textTransform: "uppercase",
-          color: "rgba(168,85,247,0.7)",
+          color: `${accent}B3`,
           fontFamily: "var(--font-body, Inter, sans-serif)",
         }}
       >
@@ -90,8 +103,8 @@ const PartnersPanel = ({ config, width = 420 }: PartnersPanelProps) => {
       >
         <div
           style={{
-            width: 160,
-            height: 80,
+            width: logoWidth,
+            height: logoHeight,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -128,7 +141,7 @@ const PartnersPanel = ({ config, width = 420 }: PartnersPanelProps) => {
                 borderRadius: 999,
                 background:
                   i === activeIndex
-                    ? "rgba(168,85,247,0.9)"
+                    ? `${accent}E6`
                     : "rgba(255,255,255,0.2)",
                 transition: "width 0.3s ease, background 0.3s ease",
               }}

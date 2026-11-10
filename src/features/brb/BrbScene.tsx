@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Stage } from "@/features/stage/Stage";
 import { useOverlayConfig } from "@/hooks/useOverlayConfig";
 import { useSpotifyNowPlaying } from "@/hooks/useSpotifyNowPlaying";
-import { HeartMark } from "@/shared/components/HeartMark";
 import { BigChatFeed } from "@/shared/chat/BigChatFeed";
 import { SpotifyNowPlayingCard } from "@/shared/components/SpotifyNowPlayingCard";
 import PartnersPanel from "@/shared/partners/PartnersPanel";
@@ -71,22 +70,6 @@ export function BrbScene() {
             gap: 32,
           }}
         >
-          {/* logo */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <HeartMark size={36} color={accent} />
-            <span
-              style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 14,
-                color: "#fff",
-                letterSpacing: "0.28em",
-                fontWeight: 800,
-              }}
-            >
-              HE4RT TALKS
-            </span>
-          </div>
-
           {/* huge "JÁ VOLTAMOS" */}
           <div
             style={{
@@ -314,7 +297,7 @@ export function BrbScene() {
           style={{
             position: "absolute",
             top: 40,
-            right: 40,
+            left: 40,
             display: "inline-flex",
             alignItems: "center",
             gap: 8,

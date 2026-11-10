@@ -1,7 +1,5 @@
 import type { TweakConfig } from "@/shared/types";
 import { useCountdown } from "@/hooks/useCountdown";
-import { HeartLogo } from "@/shared/components/HeartLogo";
-import { HeartMark } from "@/shared/components/HeartMark";
 import { SocialIcon } from "@/shared/components/SocialIcon";
 import { DiscreteChatPanel } from "@/shared/chat/DiscreteChatPanel";
 import { Clock } from "@/shared/components/Clock";
@@ -51,11 +49,6 @@ export function StartingV1({ config }: StartingV1Props) {
         display: "flex", flexDirection: "column", alignItems: "center", gap: 20,
         maxWidth: 1100,
       }}>
-        {/* logo */}
-        <div style={{ animation: "glow 3s ease-in-out infinite" }}>
-          <HeartLogo size={1.6} purple={accent} />
-        </div>
-
         {/* tagline */}
         <div style={{
           marginTop: 12,
@@ -149,20 +142,6 @@ export function StartingV1({ config }: StartingV1Props) {
         </div>
       </div>
 
-      {/* corner brand marks */}
-      <div style={{
-        position: "absolute", top: 40, left: 40,
-        display: "flex", alignItems: "center", gap: 12,
-        background: "rgba(11,4,24,0.6)", backdropFilter: "blur(10px)",
-        padding: "10px 16px", borderRadius: 10,
-        border: `1px solid ${accent}33`,
-      }}>
-        <HeartMark size={24} color={accent} />
-        <span style={{
-          fontFamily: "Inter, sans-serif", fontSize: 12,
-          color: "#fff", letterSpacing: "0.2em", fontWeight: 700,
-        }}>HE4RT TALKS</span>
-      </div>
       <div style={{
         position: "absolute", top: 40, right: 40,
         display: "inline-flex", alignItems: "center", gap: 8,

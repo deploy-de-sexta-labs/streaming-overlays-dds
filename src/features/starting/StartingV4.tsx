@@ -1,6 +1,5 @@
 import type { TweakConfig } from "@/shared/types";
 import { useCountdown } from "@/hooks/useCountdown";
-import { HeartMark } from "@/shared/components/HeartMark";
 import { MarqueeChat } from "@/shared/chat/MarqueeChat";
 
 interface StartingV4Props {
@@ -14,7 +13,6 @@ export function StartingV4({ config }: StartingV4Props) {
     startingTitle,
     startingSubtitle,
     episodeTitle,
-    episodeNumber,
     date,
     time,
     startingCountdownSeconds,
@@ -33,16 +31,9 @@ export function StartingV4({ config }: StartingV4Props) {
       {/* huge stacked typography (left) */}
       <div style={{
         position: "absolute", left: 80, top: 80, bottom: 200,
-        display: "flex", flexDirection: "column", justifyContent: "space-between",
+        display: "flex", flexDirection: "column",         justifyContent: "space-between",
       }}>
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 30 }}>
-            <HeartMark size={28} color={accent} />
-            <span style={{
-              fontFamily: "Inter, sans-serif", fontSize: 13,
-              color: "#fff", letterSpacing: "0.28em", fontWeight: 800,
-            }}>HE4RT TALKS · {episodeNumber}</span>
-          </div>
           <div style={{
             fontFamily: "'Russo One', sans-serif",
             fontSize: 96, color: "#fff", lineHeight: 0.92,

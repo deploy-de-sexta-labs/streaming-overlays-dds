@@ -1,5 +1,4 @@
 import type { TweakConfig } from "@/shared/types";
-import { HeartMark } from "@/shared/components/HeartMark";
 
 interface QuoteSerifProps {
   config: TweakConfig;
@@ -14,17 +13,6 @@ export function QuoteSerif({ config }: QuoteSerifProps) {
         position: "absolute", inset: 0,
         background: `radial-gradient(ellipse at 50% 30%, ${primary}55 0%, transparent 60%), #0b0418`,
       }} />
-
-      <div style={{
-        position: "absolute", top: 50, left: 50,
-        display: "flex", alignItems: "center", gap: 14,
-      }}>
-        <HeartMark size={28} color={accent} />
-        <span style={{
-          fontFamily: "Inter, sans-serif", fontSize: 13,
-          color: "#fff", letterSpacing: "0.28em", fontWeight: 800,
-        }}>HE4RT TALKS</span>
-      </div>
 
       {/* center column */}
       <div style={{

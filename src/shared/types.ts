@@ -57,6 +57,10 @@ export interface TweakConfig {
   guest2Name: string;
   guest2Role: string;
   guest2Handle: string;
+  cohostName: string;
+  cohostRole: string;
+  cohostHandle: string;
+  participantLayout: "host-cohost-guest" | "host-cohost" | "host-guest";
   episodeTitle: string;
   episodeNumber: string;
   topic: string;

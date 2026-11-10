@@ -1,6 +1,5 @@
 import type { TweakConfig } from "@/shared/types";
 import { useCountdown } from "@/hooks/useCountdown";
-import { HeartMark } from "@/shared/components/HeartMark";
 import { BubbleChatStrip } from "@/shared/chat/BubbleChatStrip";
 
 interface StartingV3Props {
@@ -38,13 +37,6 @@ export function StartingV3({ config }: StartingV3Props) {
       }}>
         {/* top */}
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 40 }}>
-            <HeartMark size={32} color={accent} />
-            <span style={{
-              fontFamily: "Inter, sans-serif", fontSize: 14,
-              color: "#fff", letterSpacing: "0.25em", fontWeight: 800,
-            }}>HE4RT TALKS</span>
-          </div>
           <div style={{
             fontFamily: "ui-monospace, monospace", fontSize: 13,
             color: accent, letterSpacing: "0.25em", fontWeight: 700,

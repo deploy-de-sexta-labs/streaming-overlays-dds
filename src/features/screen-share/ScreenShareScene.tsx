@@ -5,6 +5,8 @@ import { MiniCamera } from "@/shared/components/MiniCamera";
 import { useOverlayConfig } from "@/hooks/useOverlayConfig";
 import { useSpotifyNowPlaying } from "@/hooks/useSpotifyNowPlaying";
 import { SpotifyNowPlayingCard } from "@/shared/components/SpotifyNowPlayingCard";
+import { getCameraParticipants } from "@/shared/participants";
+import PartnersPanel from "@/shared/partners/PartnersPanel";
 
 export function ScreenShareScene() {
   const t = useOverlayConfig();
@@ -14,15 +16,37 @@ export function ScreenShareScene() {
   const camAreaRight = t.showChat ? 480 : 30;
   const camWidth = 1920 - camAreaLeft - camAreaRight;
   const camAreaH = 1080 - camAreaTop - 196;
+  const participants = getCameraParticipants(t);
 
   return (
     <Stage>
-      <Overlay>
+      <Overlay showPartnersPanel={false}>
         <ScreenShare config={t} x={camAreaLeft} y={camAreaTop} w={camWidth - 300} h={camAreaH} />
         <div style={{ position: "absolute", display: "flex", flexDirection: "column", gap: 24, left: camAreaLeft + camWidth - 280, top: camAreaTop }}>
-          <MiniCamera name={t.guest1Name} role={t.guest1Role} side="left" primary={t.primary} accent={t.accent} showPlaceholder={t.showCameraPlaceholders} />
-          <MiniCamera name={t.guest2Name} role={t.guest2Role} side="right" primary={t.primary} accent={t.accent} showPlaceholder={t.showCameraPlaceholders} />
+          {participants.map((participant, index) => (
+            <MiniCamera
+              key={index}
+              name={participant.name}
+              role={participant.role}
+              side={index === 0 ? "left" : "right"}
+              primary={t.primary}
+              accent={t.accent}
+              showPlaceholder={t.showCameraPlaceholders}
+            />
+          ))}
         </div>
+
+        {t.showPartnersPanel && (
+          <PartnersPanel
+            config={t}
+            width={280}
+            height={200}
+            logoWidth={220}
+            logoHeight={100}
+            rightOffset={camAreaRight}
+            bottomOffset={50}
+          />
+        )}
 
         {t.showChat && t.showSpotifyNowPlaying && (
           <div
